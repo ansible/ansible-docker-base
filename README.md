@@ -7,7 +7,10 @@ docker build -t 'abadger/ansible:centos7-ansible1.8-v2'  .
 cd ubuntu-lts-latest
 docker build -t 'abadger/ansible:ubuntu14.04-ansible1.8-v2'  .
 
-Example of using the Docker images with an ansible playbook
-===========================================================
+With an ansible playbook
+========================
+
+The following example shows how to use the above images
+to build a Docker image using a playbook:
 
 pending
