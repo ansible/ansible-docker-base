@@ -1,10 +1,9 @@
 # Latest Ubuntu LTS
 FROM ubuntu:14.04
 MAINTAINER Toshio Kuratomi <tkuratomi@ansible.com>
-RUN add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty universe"
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y python-yaml python-jinja2 python-httplib2 python-keyczar python-paramiko python-setuptools python-pkg_resources git python-pip
+RUN apt-get install -y python-yaml python-jinja2 python-httplib2 python-keyczar python-paramiko python-setuptools python-pkg-resources git python-pip
 RUN mkdir /opt/ansible/
 RUN git clone http://github.com/ansible/ansible.git /opt/ansible/ansible
 WORKDIR /opt/ansible/ansible
