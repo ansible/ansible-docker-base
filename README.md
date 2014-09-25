@@ -41,9 +41,12 @@ each of these repositories but the steps are the same.
 2) In the sidebar labeled Settings, find the entry marked "Build Triggers"
 3) On the Build Triggers page, copy the trigger url to your clipboard
 4) Run the scripts/request-build.py script
-5) When prompted, paste the trigger url into the script
-6) The script will trigger automated rebuilds on dockerhub
+5) When prompted, enter a name for this repository
+6) At the next prompt, paste the trigger url into the script
+7) The script will trigger automated rebuilds on dockerhub
 
+Note: The script saves the build triggers into ~/.dockerhub-ansible-build.  So
+on subsequent builds, you should be able to just type in the 
 
 
 Testing
@@ -54,6 +57,22 @@ Testing
 How do we test these images?  Perhaps a jenkins job that downloads the image
 from dockerhub and checks that you can run ansible inside of each one.  Then
 creates a derivative image (the eample, for instance)
+
+
+
+Updating Tags
+-------------
+
+Eventually we'll want to change the dockerhub tags for images.  This might be
+because we make a new major release and need to update the release numbers
+we're tagging as devel and stable, we want to add more images, or it could be
+that we want to change the tagging scheme.  To do this, go to the docker hub
+page for the repository (for instance:
+https://registry.hub.docker.com/u/ansible/centos7-ansible/  ).  Click on the
+"Build details" tab.  Inside of the tab, at the top, there will be an
+"Edit Build details" link.  Clicking on that takes you to a page where you can
+edit the tags for the docker images we're building.
+
 
 
 Building your Docker images with an ansible playbook
