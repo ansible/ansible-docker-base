@@ -1,20 +1,21 @@
 #!/bin/env python
 
 import os
-from getpass import getpass
 import urllib2
+
+from getpass import getpass
+from ConfigParser import SafeConfigParser, NoOptionError
 
 filename = os.path.expanduser('~/.dockerhub-ansible-build')
 
 def parse_config():
-    try:
-        url = open(filename).readlines()[0].strip()
-    except:
-        url = None
+    cfg = SafeConfigParser()
+    cfg.add_section('Docker hub URLs')
+    cfg.read(filename)
 
-    return url
+    return cfg
 
-def save_config(data):
+def save_config(cfg):
     try:
         mode = os.stat(filename).st_mode
     except OSError, e:
@@ -28,26 +29,32 @@ def save_config(data):
         # Make sure only the user has permissions
         os.chmod(filename, 0o600)
     cfg_file = open(filename, 'w')
-    cfg_file.write('%s\n' % data)
+    cfg.write(cfg_file)
     cfg_file.close()
 
 if __name__ == '__main__':
-    url = parse_config()
-    old_url = url
-    while True:
-        if not url:
-            url = getpass('Enter Trigger URL (will not echo to screen):')
+    cfg = parse_config()
 
-        # Request a build
-        try:
-            # presence of data forces this to POST
-            response = urllib2.urlopen(url, data='build=true')
-        except urllib2.HTTPError, e:
-            print(e)
-            url = None
-        else:
-            break
+    for urls in cfg.items('Docker hub URLs'):
+        print '%s:\t%s' % (urls[0], urls[1])
+    if cfg.items('Docker hub URLs'):
+        print 'or',
+    print 'enter a name for a new docker repository to build'
 
-    if old_url != url:
-        # url updated; save it to config file
-        save_config(url)
+    user_choice = raw_input(':: ')
+    user_choice = user_choice.strip()
+
+    try:
+        url = cfg.get('Docker hub URLs', user_choice)
+        new_url = False
+    except NoOptionError:
+        new_url = True
+        url = getpass('Enter Trigger URL for %s (will not be displayed):' % user_choice)
+
+    # presence of data forces this to POST
+    response = urllib2.urlopen(url, data='build=true')
+
+    # Save the new url as long as we POST'd successfully
+    if new_url:
+        cfg.set('Docker hub URLs', user_choice, url)
+        save_config(cfg)
