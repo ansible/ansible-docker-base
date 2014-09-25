@@ -35,8 +35,10 @@ def save_config(cfg):
 if __name__ == '__main__':
     cfg = parse_config()
 
+    if cfg.items('Docker hub URLs'):
+        print 'Type in one of the configured repositories:'
     for urls in cfg.items('Docker hub URLs'):
-        print '%s:\t%s' % (urls[0], urls[1])
+        print '  * %s' % (urls[0])
     if cfg.items('Docker hub URLs'):
         print 'or',
     print 'enter a name for a new docker repository to build'
