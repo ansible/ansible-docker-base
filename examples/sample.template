@@ -1,3 +1,7 @@
+# Choose an ansible image to build on top of
+#FROM ansible/centos7-ansible:stable
+FROM ansible/ubuntu14.04-ansible:stable
+
 # Add your inventory.  For simply configuring this docker image, we can simply
 # specify localhost which ansible already knows about
 #RUN echo "[hosts]\nmyhosts.com" > /etc/ansible/hosts
