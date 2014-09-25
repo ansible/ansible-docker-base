@@ -1,0 +1,12 @@
+- name: Setup apache
+  hosts: localhost
+  tasks:
+    - name: (yum) Install apache
+      when: ansible_os_family == "RedHat"
+      yum: pkg=httpd state=present
+    - name: (apt) Install apache
+      when: ansible_os_family == "Debian"
+      apt: update_cache=yes name="apache2" state=present
+    - name: Add your own index.html from a template
+      template: src=index.j2 dest=/var/www/html/index.html group=apache mode=0644
+
