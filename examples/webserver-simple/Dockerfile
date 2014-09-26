@@ -1,6 +1,7 @@
 FROM ansible/centos7-ansible:stable
+#FROM ansible/ubuntu14.04-ansible:stable
 
-# Retrieve your playbooks.  Here we have them stored in a git repo
+# Add your playbooks to the image.  Here we have them in a subdirectory
 ADD ansible /srv/example/
 WORKDIR /srv/example
 
@@ -13,4 +14,5 @@ RUN ansible-playbook site.yml -c local
 EXPOSE 22 3000 80
 
 # And then start up our service
-ENTRYPOINT [“systemctl start httpd”]
+ENTRYPOINT ["/usr/sbin/apachectl", "-DFOREGROUND"]
+#ENTRYPOINT ["/usr/sbin/apache2ctl", "-DFOREGROUND"]
