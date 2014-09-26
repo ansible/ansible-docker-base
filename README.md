@@ -70,13 +70,13 @@ Rebuilding Automatically when the Ansible Image Updates
 If you are using a Docker Hub automated build to build your images you can set
 your image to rebuild whenever the base ansible image (hosted by Ansible, Inc) is updated:
 
-1) Go to the docker hub page for your repository.
-2) In the sidebar labeled Settings, find the entry marked "Repository Links"
-3) On the Repository Links page, enter the ansible repository you are layering
+1. Go to the docker hub page for your repository.
+2. In the sidebar labeled "Settings", find the entry marked "Repository Links"
+3. On the "Repository Links" page, enter the Ansible repository you are layering
    your image on top of.  For instance, if you are using the
    ubuntu14.04-ansible repository, enter ansible/ubuntu14.04-ansible
-   into the "Repository Name" box and click "add".
-4) Docker hub will now automatically rebuild your image whenever that ansible
+   into the "Repository Name" box and click "Add".
+4. Docker hub will now automatically rebuild your image whenever that ansible
    repository has a new build.
    
 Questions?
