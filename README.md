@@ -78,3 +78,10 @@ your image to rebuild whenever the base ansible image (hosted by Ansible, Inc) i
    into the "Repository Name" box and click "add".
 4) Docker hub will now automatically rebuild your image whenever that ansible
    repository has a new build.
+   
+Questions?
+==========
+
+If you'd like to talk about Ansible+Docker, stop by the [ansible-project mailing list](https://groups.google.com/forum/#!forum/ansible-project) or #ansible on irc.freenode.net for IRC.
+
+
