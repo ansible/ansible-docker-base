@@ -5,16 +5,18 @@ These are base docker images that include Ansible.
 
 Ansible, Inc maintains these images so that people can easily build docker images from ansible playbooks.
 
-DockerHub
-=========
+Obtaining these Images from DockerHub
+=====================================
 
 Ansible, Inc content on DockerHub lives at https://registry.hub.docker.com/u/ansible/
 
 There are base images available currently for CentOS 7 and Ubuntu 14.04 LTS, using both the latest
 stable version of Ansible as well as development branch snapshots.
 
-Building a Container Based on an Ansible Image
-==============================================
+Building Your Own Container Based on an Ansible Image
+=====================================================
+
+By specifying a Dockerfile, it is easy to describe a container image primarily defined by an ansible-playbook.
 
 Take a look at [this Dockerfile](https://github.com/ansible/ansible-docker-base/blob/master/examples/webserver-simple/Dockerfile) for a sample Dockerfile
 
@@ -24,10 +26,13 @@ To build this image, simply cd into the Dockerfile directory and run:
     
 This will produce an image tagged "webserver_simple" based on the Ansible playbook run.  [Here's the playbook describing the configuration](https://github.com/ansible/ansible-docker-base/blob/master/examples/webserver-simple/ansible/site.yml).
 
+You may wish to connect your repository with this information to DockerHub, to trigger automatic rebuilds of your container
+images when your ansible playbooks change.
+
 Selecting Versions of Ansible
 =============================
 
-The above dockerfile selects the latest CentOS tag of Ansible.  The first line of the Dockerfile can be changed to select another base operating system or Ansible version.
+The example dockerfile above selects the latest CentOS tag of Ansible's Docker images.  The first line of the Dockerfile can be changed to select another base operating system or Ansible version should you wish to use a different OS or different Ansible version.
 
 Examples:
 
@@ -35,6 +40,8 @@ Examples:
     FROM ansible/centos7-ansible:devel
     FROM ansible/ubuntu14.04-ansible:stable
     FROM ansible/ubuntu14.04-ansible:stable
+    
+Ansible images on DockerHub will be updated periodically.
 
 
 Deploying Your Ansible-Built Docker Containers with Ansible
