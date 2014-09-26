@@ -54,6 +54,7 @@ provides complete automation for deploying a very large number of popular apps.
 With existing ansible role content, simply switch into a playbook directory and download roles, or example, a role to configure the ELK stack.
 
     mkdir roles/
+    cd roles/
     ansible-galaxy install bakhti.elk
    
 And then leverage the role content in the playbook:
