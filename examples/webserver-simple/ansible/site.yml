@@ -2,6 +2,7 @@
   hosts: localhost
   vars:
   - apache_group: {"Debian": "root", "RedHat": "apache"}
+  - apache_ctl: {"Debian": "/usr/sbin/apache2ctl", "RedHat": "/usr/sbin/apachectl"}
 
   tasks:
     - name: (yum) Install apache
@@ -11,6 +12,10 @@
     - name: (apt) Install apache
       when: ansible_os_family == "Debian"
       apt: update_cache=yes name="apache2" state=present
+
+    - name: Compat entrypoint
+      file: state=link src={{apache_ctl[ansible_os_family]}}
+            dest=/usr/local/bin/apachectl
 
     - name: Add your own index.html from a template
       template: src=index.j2 dest=/var/www/html/index.html

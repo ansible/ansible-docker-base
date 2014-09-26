@@ -14,5 +14,4 @@ RUN ansible-playbook site.yml -c local
 EXPOSE 22 3000 80
 
 # And then start up our service
-ENTRYPOINT ["/usr/sbin/apachectl", "-DFOREGROUND"]
-#ENTRYPOINT ["/usr/sbin/apache2ctl", "-DFOREGROUND"]
+ENTRYPOINT ["/usr/local/bin/apachectl", "-DFOREGROUND"]
