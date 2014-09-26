@@ -45,6 +45,24 @@ Examples:
     
 Ansible images on DockerHub will be updated periodically.
 
+Jumping Docker Content with Ansible Galaxy
+==========================================
+
+While Ansible provides 240+ modules for managing various aspects of IT components, [Ansible Galaxy](http://ansible.galaxy.com)
+provides complete automation for deploying a very large number of popular apps.
+
+With existing ansible role content, simply switch into a playbook directory and download roles, or example, a role to configure the ELK stack.
+
+   mkdir roles/
+   ansible-galaxy install bakhti.elk
+   
+And then leverage the role content in the playbook:
+
+   - hosts: localhost
+     roles:
+       - bakhti.elk
+
+So, a 3 line playbook then brings up an entire ELK stack in a container image :)
 
 Deploying Your Ansible-Built Docker Containers with Ansible
 ===========================================================
