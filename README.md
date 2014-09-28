@@ -18,18 +18,18 @@ stable version of Ansible as well as development branch snapshots.
 Building Your Own Container Based on an Ansible Image
 =====================================================
 
-By specifying a Dockerfile, it is easy to describe a container image primarily defined by an ansible-playbook.
+By specifying a Dockerfile, it is easy to describe a container image primarily defined by an ansible-playbook, using a very minimal Dockerfile.
 
-Take a look at [this Dockerfile](https://github.com/ansible/ansible-docker-base/blob/master/examples/webserver-simple/Dockerfile) for a sample Dockerfile
+Take a look at [this Dockerfile](https://github.com/ansible/ansible-docker-base/blob/master/examples/webserver-simple/Dockerfile) for a sample of what one looks like.
 
-To build this image, simply cd into the Dockerfile directory and run:
+To build this image, simply cd into the directory that contains the Dockerfile and run:
 
     docker build -t webserver_simple .
     
-This will produce an image tagged "webserver_simple" based on the Ansible playbook run.  [Here's the playbook describing the configuration](https://github.com/ansible/ansible-docker-base/blob/master/examples/webserver-simple/ansible/site.yml).
+This will produce an image tagged "webserver_simple" based on the Ansible playbook run.  [Here's the playbook that defines the configuration](https://github.com/ansible/ansible-docker-base/blob/master/examples/webserver-simple/ansible/site.yml).
 
-You may wish to connect your repository with this information to DockerHub, to trigger automatic rebuilds of your container
-images when your ansible playbooks change.
+Your own content will probably be kept in it's own git repos.  You may wish to connect your repositories containing Ansible+Docker playbooks to DockerHub, to trigger automatic rebuilds of your container
+images when your underlying ansible playbooks, or the applications they might embed, change.
 
 Selecting Versions of Ansible
 =============================
