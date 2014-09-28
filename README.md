@@ -5,7 +5,7 @@ These are base docker images that include Ansible.
 
 Ansible, Inc maintains these images so that people can easily build docker images from ansible playbooks.
 
-While Ansible modules can help you deploy container images, this document is about how to use ansible to efficiently describe and build them as well.
+While Ansible modules can help you deploy container images (and also prepare host dependencies to be able to run containers), this document is about how to use ansible to efficiently describe and build them as well.
 
 Obtaining these Images from DockerHub
 =====================================
