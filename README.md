@@ -34,9 +34,9 @@ images when your underlying ansible playbooks, or the applications they might em
 Selecting Versions of Ansible
 =============================
 
-The example dockerfile above selects the latest CentOS tag of Ansible's Docker images.  The first line of the Dockerfile can be changed to select another base operating system or Ansible version should you wish to use a different OS or different Ansible version.
+The DockerFile shown above selected the latest CentOS tag of Ansible's Docker images.  The first line of the DockerFile can be changed to select another base operating system or Ansible version should you wish to use a different OS or different Ansible version.
 
-Examples:
+The following options are available:
 
     FROM ansible/centos7-ansible:stable
     FROM ansible/centos7-ansible:devel
@@ -48,10 +48,9 @@ Ansible images on DockerHub will be updated periodically.
 Jumping Docker Content with Ansible Galaxy
 ==========================================
 
-While Ansible provides 240+ modules for managing various aspects of IT components, [Ansible Galaxy](http://ansible.galaxy.com)
-provides complete automation for deploying a very large number of popular apps.
+While Ansible provides 240+ modules for managing various aspects of IT components and is a great starting point for describing your applications, [Ansible Galaxy](http://ansible.galaxy.com) provides complete automation for deploying a very large number of popular apps and takes this to the next level.
 
-With existing ansible role content, simply switch into a playbook directory and download roles, or example, a role to configure the ELK stack.
+To use existing ansible-role content within Docker, simply switch into a playbook directory and download the roles.  For example, to to configure the ELK stack:
 
     mkdir roles/
     cd roles/
@@ -82,6 +81,9 @@ Here's a minimal example of running a Tomcat container on all of your hosts:
 Replace the "image" parameter with the name of the image above in your registry.
 
 For more information, consult the [Ansible Docker module documentation](http://docs.ansible.com/docker_module.html)
+
+As your needs grow more detailed and you wish to specify different containers for different hosts, 
+you might have a list called "run_containers" defined per Ansible host group, saying which containers to run on each host.  This can allow ansible to be used as a lightweight cloud, all without any additional moving parts.
 
 Rebuilding Automatically when the Ansible Image Updates
 =======================================================
