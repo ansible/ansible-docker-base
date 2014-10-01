@@ -48,7 +48,7 @@ Ansible images on DockerHub will be updated periodically.
 Jumping Docker Content with Ansible Galaxy
 ==========================================
 
-While Ansible provides 240+ modules for managing various aspects of IT components and is a great starting point for describing your applications, [Ansible Galaxy](http://ansible.galaxy.com) provides complete automation for deploying a very large number of popular apps and takes this to the next level.
+While Ansible provides 240+ modules for managing various aspects of IT components and is a great starting point for describing your applications, [Ansible Galaxy](http://galaxy.ansible.com) provides complete automation for deploying a very large number of popular apps and takes this to the next level.
 
 To use existing ansible-role content within Docker, simply switch into a playbook directory and download the roles.  For example, to to configure the ELK stack:
 
