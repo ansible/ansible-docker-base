@@ -1,17 +1,13 @@
 FROM ansible/centos7-ansible:stable
-#FROM ansible/ubuntu14.04-ansible:stable
+# or, for example, FROM ansible/ubuntu14.04-ansible:stable
 
-# Add your playbooks to the image.  Here we have them in a subdirectory
+# Add playbooks to the Docker image
 ADD ansible /srv/example/
 WORKDIR /srv/example
 
-# Bootstrapping is over, now run ansible on your playbook to finish configuring
-# your docker image.
+# Run Ansible on configure the Docker image
 RUN ansible-playbook site.yml -c local
 
-# We can mix docker configuration of the container with ansible configuration
-# if we want to
+# Other Dockerfile directives are still valid
 EXPOSE 22 3000 80
-
-# And then start up our service
 ENTRYPOINT ["/usr/local/bin/apachectl", "-DFOREGROUND"]
