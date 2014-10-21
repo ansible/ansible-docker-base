@@ -5,7 +5,7 @@ FROM ansible/centos7-ansible:stable
 ADD ansible /srv/example/
 WORKDIR /srv/example
 
-# Run Ansible on configure the Docker image
+# Run Ansible to configure the Docker image
 RUN ansible-playbook site.yml -c local
 
 # Other Dockerfile directives are still valid
