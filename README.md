@@ -1,3 +1,11 @@
+THESE IMAGES HAVE BEEN DEPRECATED
+=================================
+
+Ansible no longer maintains images in Dockerhub directly. There are
+several Ansible images on Dockerhub that are maintained by members of
+the Ansible community, which you can find with the [following search](https://hub.docker.com/search/?q=ansible&page=1&isAutomated=0&isOfficial=0&pullCount=1&starCount=0)
+
+
 Ansible-Docker-Base
 ===================
 
