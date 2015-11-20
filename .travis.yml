@@ -11,6 +11,7 @@ before_install:
 script:
   - docker run --privileged -d -ti -e "container=docker"  -v /sys/fs/cgroup:/sys/fs/cgroup  trinitronx/ansible-base:stable-centos7  /usr/sbin/init
   - DOCKER_CONTAINER_ID=$(docker ps | grep stable-centos7 | awk '{print $1}')
+  - docker logs $DOCKER_CONTAINER_ID
   - >
     docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'sudo yum -y install make ;
        mkdir /opt/ansible/ ; git clone http://github.com/ansible/ansible.git /opt/ansible/ansible ; cd /opt/ansible/ansible ;
@@ -19,7 +20,7 @@ script:
        echo $ANSIBLE_VERSION ; echo $GIT_TAG ;
        git checkout $GIT_TAG ;  git submodule update --init ;
        sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock ;
-       cd test/integration/ ; make -j 13 all ; '
+       cd test/integration/ ; make -j 13 all ; sudo journalctl -xn '
   - docker ps -a
   - docker stop $DOCKER_CONTAINER_ID
   - docker rm -v $DOCKER_CONTAINER_ID
