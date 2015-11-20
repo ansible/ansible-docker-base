@@ -28,6 +28,8 @@ Obtaining these Images from DockerHub
 
 Ansible, Inc content on DockerHub lives at https://registry.hub.docker.com/u/ansible/
 
+This Fork's content on DockerHub lives at https://hub.docker.com/r/trinitronx/ansible-base
+
 There are base images available currently for CentOS 7 and Ubuntu 14.04 LTS, using both the latest
 stable version of Ansible as well as development branch snapshots.
 
@@ -59,6 +61,16 @@ The following options are available:
     FROM ansible/ubuntu14.04-ansible:stable
     FROM ansible/ubuntu14.04-ansible:devel
     
+*This Fork* currently has these images available with different Ansible versions (*ALL are CentOS 7 based currently*):
+
+    FROM trinitronx/ansible-base:latest
+    FROM trinitronx/ansible-base:stable
+    FROM trinitronx/ansible-base:v1.9.4
+    FROM trinitronx/ansible-base:v1.9.2
+    FROM trinitronx/ansible-base:v1.9.0.1
+    FROM trinitronx/ansible-base:v1.8.4
+    FROM trinitronx/ansible-base:v1.7.2
+
 Ansible images on DockerHub will be updated periodically.
 
 Jumping Docker Content with Ansible Galaxy
