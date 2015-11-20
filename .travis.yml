@@ -18,9 +18,10 @@ script:
   - docker run --privileged -d -ti -e "container=docker"  -v /sys/fs/cgroup:/sys/fs/cgroup  trinitronx/ansible-base:${IMAGE_BUILD_PLATFORM}  /usr/sbin/init
   - DOCKER_CONTAINER_ID=$(docker ps | grep ${IMAGE_BUILD_PLATFORM} | awk '{print $1}')
   - docker logs $DOCKER_CONTAINER_ID
+  - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'sudo yum -y install make && mkdir -p /opt/ansible/'
+  - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'if ! [ -d /opt/ansible/ansible ] || ! bash -c "cd /opt/ansible/ansible && git branch"; then git clone http://github.com/ansible/ansible.git /opt/ansible/ansible ; fi'
   - >
-    docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'sudo yum -y install make &&
-       mkdir /opt/ansible/ && git clone http://github.com/ansible/ansible.git /opt/ansible/ansible && cd /opt/ansible/ansible &&
+    docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible &&
        export ANSIBLE_VERSION=$(ansible-playbook --version | sed "s/[^0-9.]*\([0-9.]*\).*/\1/") &&
        export GIT_TAG=$(git tag | grep $ANSIBLE_VERSION | grep -v rc) &&
        echo $ANSIBLE_VERSION && echo $GIT_TAG &&
