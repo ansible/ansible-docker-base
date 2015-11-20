@@ -10,7 +10,7 @@ This is a Fork - NOT maintained by Ansible, Inc.
 
 Ansible-Docker-Base
 ===================
-[![Build Status](https://img.shields.io/travis/trinitronx/ansible-docker-base.svg)](https://travis-ci.org/trinitronx/ansible-base)
+[![Build Status](https://img.shields.io/travis/trinitronx/ansible-docker-base.svg)](https://travis-ci.org/trinitronx/ansible-docker-base)
 [![Docker Pulls](https://img.shields.io/docker/pulls/trinitronx/ansible-base.svg)](https://hub.docker.com/r/trinitronx/ansible-base)
 [![Docker Stars](https://img.shields.io/docker/stars/trinitronx/ansible-base.svg)](https://hub.docker.com/r/trinitronx/ansible-base)
 [![Gittip](http://img.shields.io/gittip/trinitronx.svg)](https://www.gittip.com/trinitronx)
