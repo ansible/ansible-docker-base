@@ -61,7 +61,7 @@ The following options are available:
     FROM ansible/ubuntu14.04-ansible:stable
     FROM ansible/ubuntu14.04-ansible:devel
     
-*This Fork* currently has these images available with different Ansible versions (*ALL are CentOS 7 based currently*):
+**This Fork** currently has these images available with different Ansible versions (**ALL are CentOS 7 based currently**):
 
     FROM trinitronx/ansible-base:latest
     FROM trinitronx/ansible-base:stable
