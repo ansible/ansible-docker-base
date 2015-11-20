@@ -1,5 +1,9 @@
 Ansible-Docker-Base
 ===================
+[![Build Status](http://img.shields.io/travis/trinitronx/ansible-base.svg)](https://travis-ci.org/trinitronx/ansible-base)
+[![Docker Pulls](https://img.shields.io/docker/pulls/trinitronx/ansible-base.svg)](https://hub.docker.com/r/trinitronx/ansible-base)
+[![Docker Stars](https://img.shields.io/docker/stars/trinitronx/ansible-base.svg)](https://hub.docker.com/r/trinitronx/ansible-base)
+[![Gittip](http://img.shields.io/gittip/trinitronx.svg)](https://www.gittip.com/trinitronx)
 
 These are base docker images that include Ansible.  
 
