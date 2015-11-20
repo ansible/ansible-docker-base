@@ -21,7 +21,7 @@ script:
        git checkout $GIT_TAG ;  git submodule update --init ;
        sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock ;
        cd test/integration/ ; make -j 13 all ; echo -ne "------\nEND ANSIBLE TESTS\n------\nJournalD Logs:\n------\n" ;
-       sudo journalctl -xn --all '
+       sudo journalctl --catalog --lines=all --all --full --no-pager'
   - docker ps -a
   - docker stop $DOCKER_CONTAINER_ID
   - docker rm -v $DOCKER_CONTAINER_ID
