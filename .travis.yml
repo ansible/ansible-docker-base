@@ -9,6 +9,6 @@ before_install:
   - docker build -t trinitronx/ansible-base:stable-centos7 stable-centos7/
 
 script:
-  - docker run --rm trinitronx/ansible-base /bin/sh -c "mkdir /opt/ansible/ && git clone http://github.com/ansible/ansible.git /opt/ansible/ansible && cd /opt/ansible/ansible && git submodule update --init && sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock && source ./hacking/env-setup && cd test/integration/ && make parsing && make test_var_precedence && make unicode ;"
+  - docker run --rm -t trinitronx/ansible-base:stable-centos7 /bin/sh -c "mkdir /opt/ansible/ && git clone http://github.com/ansible/ansible.git /opt/ansible/ansible && cd /opt/ansible/ansible && git submodule update --init && sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock && source ./hacking/env-setup && cd test/integration/ && make parsing && make test_var_precedence && make unicode ;"
   - docker ps -a
 
