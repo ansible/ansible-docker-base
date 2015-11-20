@@ -10,7 +10,7 @@ before_install:
 
 script:
   - docker run --privileged -d -ti -e "container=docker"  -v /sys/fs/cgroup:/sys/fs/cgroup  trinitronx/ansible-base:stable-centos7  /usr/sbin/init
-  - DOCKER_CONTAINER_ID=$(docker ps | grep stable-centos7)
+  - DOCKER_CONTAINER_ID=$(docker ps | grep stable-centos7 | awk '{print $1}')
   - >
     docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'sudo yum -y install make ;
        mkdir /opt/ansible/ ; git clone http://github.com/ansible/ansible.git /opt/ansible/ansible ; cd /opt/ansible/ansible ;
