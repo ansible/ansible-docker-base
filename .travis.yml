@@ -5,10 +5,12 @@ sudo: required
 services:
   - docker
 
-before_install:
-  - docker build -t trinitronx/ansible-base:stable-centos7 stable-centos7/
+install:
+  - npm install -g validate-dockerfile
 
 script:
+  - docklint stable-centos7/Dockerfile
+  - docker build -t trinitronx/ansible-base:stable-centos7 stable-centos7/
   - docker run --privileged -d -ti -e "container=docker"  -v /sys/fs/cgroup:/sys/fs/cgroup  trinitronx/ansible-base:stable-centos7  /usr/sbin/init
   - DOCKER_CONTAINER_ID=$(docker ps | grep stable-centos7 | awk '{print $1}')
   - docker logs $DOCKER_CONTAINER_ID
