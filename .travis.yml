@@ -9,6 +9,17 @@ before_install:
   - docker build -t trinitronx/ansible-base:stable-centos7 stable-centos7/
 
 script:
-  - docker run --rm -t trinitronx/ansible-base:stable-centos7 /bin/sh -c "sudo yum -y install make && mkdir /opt/ansible/ && git clone http://github.com/ansible/ansible.git /opt/ansible/ansible && cd /opt/ansible/ansible && ANSIBLE_VERSION=$(ansible-playbook --version | sed 's/[^0-9.]*\([0-9.]*\).*/\1/') && GIT_TAG=$(git tag | grep $ANSIBLE_VERSION | grep -v rc) && git checkout $GIT_TAG && git submodule update --init && sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock && cd test/integration/ && make parsing && make test_var_precedence && make unicode ;"
+  - docker run --privileged -d -ti -e "container=docker"  -v /sys/fs/cgroup:/sys/fs/cgroup  trinitronx/ansible-base:stable-centos7  /usr/sbin/init
+  - DOCKER_CONTAINER_ID=$(docker ps | grep stable-centos7)
+  - >
+    docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'sudo yum -y install make ;
+       mkdir /opt/ansible/ ; git clone http://github.com/ansible/ansible.git /opt/ansible/ansible ; cd /opt/ansible/ansible ;
+       export ANSIBLE_VERSION=$(ansible-playbook --version | sed "s/[^0-9.]*\([0-9.]*\).*/\1/") ;
+       export GIT_TAG=$(git tag | grep $ANSIBLE_VERSION | grep -v rc) ;
+       echo $ANSIBLE_VERSION ; echo $GIT_TAG ;
+       git checkout $GIT_TAG ;  git submodule update --init ;
+       sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock ;
+       cd test/integration/ ; make -j 13 all ; '
   - docker ps -a
-
+  - docker stop $DOCKER_CONTAINER_ID
+  - docker rm -v $DOCKER_CONTAINER_ID
