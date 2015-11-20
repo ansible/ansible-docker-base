@@ -5,14 +5,18 @@ sudo: required
 services:
   - docker
 
+env:
+  - IMAGE_BUILD_PLATFORM=stable-centos7
+  - IMAGE_BUILD_PLATFORM=devel-centos7
+
 install:
   - npm install -g validate-dockerfile
 
 script:
-  - docklint stable-centos7/Dockerfile
-  - docker build -t trinitronx/ansible-base:stable-centos7 stable-centos7/
-  - docker run --privileged -d -ti -e "container=docker"  -v /sys/fs/cgroup:/sys/fs/cgroup  trinitronx/ansible-base:stable-centos7  /usr/sbin/init
-  - DOCKER_CONTAINER_ID=$(docker ps | grep stable-centos7 | awk '{print $1}')
+  - docklint ${IMAGE_BUILD_PLATFORM}/Dockerfile
+  - docker build -t trinitronx/ansible-base:${IMAGE_BUILD_PLATFORM} ${IMAGE_BUILD_PLATFORM}/
+  - docker run --privileged -d -ti -e "container=docker"  -v /sys/fs/cgroup:/sys/fs/cgroup  trinitronx/ansible-base:${IMAGE_BUILD_PLATFORM}  /usr/sbin/init
+  - DOCKER_CONTAINER_ID=$(docker ps | grep ${IMAGE_BUILD_PLATFORM} | awk '{print $1}')
   - docker logs $DOCKER_CONTAINER_ID
   - >
     docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'sudo yum -y install make &&
