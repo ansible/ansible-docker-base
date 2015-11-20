@@ -20,7 +20,8 @@ script:
        echo $ANSIBLE_VERSION ; echo $GIT_TAG ;
        git checkout $GIT_TAG ;  git submodule update --init ;
        sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock ;
-       cd test/integration/ ; make -j 13 all ; sudo journalctl -xn '
+       cd test/integration/ ; make -j 13 all ; echo -ne "------\nEND ANSIBLE TESTS\n------\nJournalD Logs:\n------\n" ;
+       sudo journalctl -xn --all '
   - docker ps -a
   - docker stop $DOCKER_CONTAINER_ID
   - docker rm -v $DOCKER_CONTAINER_ID
