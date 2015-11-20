@@ -7,7 +7,9 @@ Ansible-Docker-Base
 
 These are base docker images that include Ansible.  
 
-Ansible, Inc maintains these images so that people can easily build docker images from ansible playbooks.
+[Ansible, Inc used to maintain](https://github.com/ansible/ansible-docker-base#these-images-have-been-deprecated) these images so that people could easily build docker images from ansible playbooks.
+
+This fork is NOT owned by or maintained by Ansible, Inc.  Use at your own risk (I may not maintain it very well)!
 
 While Ansible modules can help you deploy container images (and also prepare host dependencies to be able to run containers), this document is about how to use ansible to efficiently describe and build them as well.
 
