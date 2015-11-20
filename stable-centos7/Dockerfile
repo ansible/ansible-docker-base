@@ -12,7 +12,7 @@ RUN yum clean all && \
     yum -y remove $(rpm -qa "*-devel") && \
     yum -y groupremove "Development tools" && \
     yum -y autoremove && \
-    yum -y install bzip2 file findutils gzip hg procps-ng svn sudo tar which unzip xz zip
+    yum -y install bzip2 file findutils git gzip hg procps-ng svn sudo tar which unzip xz zip
 
 RUN mkdir /etc/ansible/
 RUN echo -e '[local]\nlocalhost' > /etc/ansible/hosts
