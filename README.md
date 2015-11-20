@@ -8,10 +8,16 @@ the Ansible community, which you can find with the [following search](https://hu
 
 Ansible-Docker-Base
 ===================
+[![Build Status](http://img.shields.io/travis/trinitronx/ansible-base.svg)](https://travis-ci.org/trinitronx/ansible-base)
+[![Docker Pulls](https://img.shields.io/docker/pulls/trinitronx/ansible-base.svg)](https://hub.docker.com/r/trinitronx/ansible-base)
+[![Docker Stars](https://img.shields.io/docker/stars/trinitronx/ansible-base.svg)](https://hub.docker.com/r/trinitronx/ansible-base)
+[![Gittip](http://img.shields.io/gittip/trinitronx.svg)](https://www.gittip.com/trinitronx)
 
 These are base docker images that include Ansible.  
 
-Ansible, Inc maintains these images so that people can easily build docker images from ansible playbooks.
+[Ansible, Inc used to maintain](https://github.com/ansible/ansible-docker-base#these-images-have-been-deprecated) these images so that people could easily build docker images from ansible playbooks.
+
+This fork is NOT owned by or maintained by Ansible, Inc.  Use at your own risk (I may not maintain it very well)!
 
 While Ansible modules can help you deploy container images (and also prepare host dependencies to be able to run containers), this document is about how to use ansible to efficiently describe and build them as well.
 
