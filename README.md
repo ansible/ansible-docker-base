@@ -1,5 +1,5 @@
-THESE IMAGES HAVE BEEN DEPRECATED
-=================================
+THE OFFICIAL IMAGES HAVE BEEN DEPRECATED
+========================================
 
 Ansible no longer maintains images in Dockerhub directly. There are
 several Ansible images on Dockerhub that are maintained by members of
@@ -15,11 +15,13 @@ Ansible-Docker-Base
 [![Docker Stars](https://img.shields.io/docker/stars/trinitronx/ansible-base.svg)](https://hub.docker.com/r/trinitronx/ansible-base)
 [![Gittip](http://img.shields.io/gittip/trinitronx.svg)](https://www.gittip.com/trinitronx)
 
-These are base docker images that include Ansible.  
+These are base docker images that include Ansible.
 
 [Ansible, Inc used to maintain](https://github.com/ansible/ansible-docker-base#these-images-have-been-deprecated) these images so that people could easily build docker images from ansible playbooks.
 
-This fork is NOT owned by or maintained by Ansible, Inc.  Use at your own risk (I may not maintain it very well)!
+This fork is NOT owned by or maintained by Ansible, Inc.  Use at your own risk!
+
+**NOTE:** I may not be able to maintain this image very well, as it is not my day job.  And I do not guarantee the quality of the version of Ansible that is installed here. In my attempt to run the integration tests within Docker both on Travis-CI and via my local Boot2Docker image, I have come to find that **many** of the pre-packaged Ansible integration tests fail out of the box in different ways on the different platforms.  This only reflects the released version of Ansible's quality on these platforms, and that certain things may be broken differently on each.  You may not encounter these bugs, but the tests show that they are there.
 
 While Ansible modules can help you deploy container images (and also prepare host dependencies to be able to run containers), this document is about how to use ansible to efficiently describe and build them as well.
 
@@ -28,7 +30,7 @@ Obtaining these Images from DockerHub
 
 Ansible, Inc content on DockerHub lives at https://registry.hub.docker.com/u/ansible/
 
-This Fork's content on DockerHub lives at https://hub.docker.com/r/trinitronx/ansible-base
+**This Fork's** content on DockerHub lives at https://hub.docker.com/r/trinitronx/ansible-base
 
 There are base images available currently for CentOS 7 and Ubuntu 14.04 LTS, using both the latest
 stable version of Ansible as well as development branch snapshots.
