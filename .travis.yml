@@ -18,6 +18,7 @@ script:
   - docker run --privileged -d -ti -e "container=docker"  -v /sys/fs/cgroup:/sys/fs/cgroup  trinitronx/ansible-base:${IMAGE_BUILD_PLATFORM}  /usr/sbin/init
   - DOCKER_CONTAINER_ID=$(docker ps | grep ${IMAGE_BUILD_PLATFORM} | awk '{print $1}')
   - docker logs $DOCKER_CONTAINER_ID
+# Prepare test environment
   - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'sudo yum -y install make && mkdir -p /opt/ansible/'
   - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'if ! [ -d /opt/ansible/ansible ] || ! bash -c "cd /opt/ansible/ansible && git branch"; then git clone http://github.com/ansible/ansible.git /opt/ansible/ansible ; fi'
   - >
@@ -26,8 +27,12 @@ script:
        export GIT_TAG=$(git tag | grep $ANSIBLE_VERSION | grep -v rc) &&
        echo $ANSIBLE_VERSION && echo $GIT_TAG &&
        git checkout $GIT_TAG &&  git submodule update --init &&
-       sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock &&
-       cd test/integration/ && make -j 13 all '
+       sudo pip install tox sphinx &&
+       sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock '
+  - docker exec -ti -w '/opt/ansible/ansible' $DOCKER_CONTAINER_ID /bin/sh -c ' ./test/code-smell/replace-urlopen.sh . '
+  - docker exec -ti -w '/opt/ansible/ansible' $DOCKER_CONTAINER_ID /bin/sh -c ' ./test/code-smell/use-compat-six.sh lib '
+  - docker exec -ti -w '/opt/ansible/ansible' $DOCKER_CONTAINER_ID /bin/sh -c ' ./test/code-smell/boilerplate.sh '
+  - docker exec -ti -w '/opt/ansible/ansible/test/integration/' $DOCKER_CONTAINER_ID /bin/sh -c ' make -j 3 parsing test_var_precedence unicode '
   - >
     docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'echo -ne "------\nEND ANSIBLE TESTS\n------\nSystemD Units:\n------\n";
        systemctl --no-pager --all --full status ;
