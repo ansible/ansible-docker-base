@@ -29,10 +29,10 @@ script:
        git checkout $GIT_TAG &&  git submodule update --init &&
        sudo pip install tox sphinx &&
        sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock '
-  - docker exec -ti -w '/opt/ansible/ansible' $DOCKER_CONTAINER_ID /bin/sh -c ' ./test/code-smell/replace-urlopen.sh . '
-  - docker exec -ti -w '/opt/ansible/ansible' $DOCKER_CONTAINER_ID /bin/sh -c ' ./test/code-smell/use-compat-six.sh lib '
-  - docker exec -ti -w '/opt/ansible/ansible' $DOCKER_CONTAINER_ID /bin/sh -c ' ./test/code-smell/boilerplate.sh '
-  - docker exec -ti -w '/opt/ansible/ansible/test/integration/' $DOCKER_CONTAINER_ID /bin/sh -c ' make -j 3 parsing test_var_precedence unicode '
+  - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible && ./test/code-smell/replace-urlopen.sh . '
+  - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible && ./test/code-smell/use-compat-six.sh lib '
+  - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible && ./test/code-smell/boilerplate.sh '
+  - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible/test/integration/ && make -j 3 parsing test_var_precedence unicode '
   - >
     docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'echo -ne "------\nEND ANSIBLE TESTS\n------\nSystemD Units:\n------\n";
        systemctl --no-pager --all --full status ;
