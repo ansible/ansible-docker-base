@@ -5,6 +5,9 @@ sudo: required
 services:
   - docker
 
+matrix:
+  fast_finish: true
+
 env:
   - IMAGE_BUILD_PLATFORM=stable-centos7
   - IMAGE_BUILD_PLATFORM=devel-centos7
