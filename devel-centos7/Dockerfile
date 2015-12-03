@@ -38,4 +38,4 @@ ENV XDG_CACHE_HOME /tmp/
 RUN source /opt/ansible/ansible/hacking/env-setup
 
 
-ENTRYPOINT ["/bin/bash", "-c"]
+CMD /bin/bash
