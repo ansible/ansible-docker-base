@@ -33,6 +33,9 @@ ENV PATH /opt/ansible/ansible/bin:/bin:/usr/bin:/sbin:/usr/sbin
 ENV PYTHONPATH /opt/ansible/ansible/lib
 ENV ANSIBLE_LIBRARY /opt/ansible/ansible/library
 # Workaround bug in pip / pylockfile: http://pad.lv/1472101
+# If HOME is a volume mount, causes infinite loop in pip trying to write lock
 ENV XDG_CACHE_HOME /tmp/
+RUN source /opt/ansible/ansible/hacking/env-setup
 
-CMD ["/bin/bash"]
+
+ENTRYPOINT ["/bin/bash", "-c"]
