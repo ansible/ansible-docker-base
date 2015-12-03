@@ -41,7 +41,7 @@ script:
   - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible && make tests '
   - >
     docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible/test/integration/ &&
-       make -j 1 parsing test_var_precedence test_templating_settings non_destructive includes check_mode test_hash test_handlers test_group_by test_vault test_tags '
+       make -j 1 parsing test_var_precedence test_templating_settings non_destructive includes test_hash test_handlers test_group_by '
   - >
     docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'echo -ne "------\nEND ANSIBLE TESTS\n------\nSystemD Units:\n------\n";
        systemctl --no-pager --all --full status ;
