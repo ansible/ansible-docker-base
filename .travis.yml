@@ -11,9 +11,6 @@ matrix:
   fast_finish: true
 
 env:
-  global:
-    - COMMIT=${TRAVIS_COMMIT::8}
-    - REPO=trinitronx/fastest-servers
   - IMAGE_BUILD_PLATFORM=stable-centos7
   - IMAGE_BUILD_PLATFORM=devel-centos7
 
@@ -21,6 +18,8 @@ install:
   - npm install -g validate-dockerfile
 
 script:
+  - export COMMIT=${TRAVIS_COMMIT::8}
+  - export REPO=trinitronx/ansible-docker-base
   - docklint ${IMAGE_BUILD_PLATFORM}/Dockerfile
   - docker build -t ${REPO}:${IMAGE_BUILD_PLATFORM} ${IMAGE_BUILD_PLATFORM}/
   - docker run --privileged -d -ti -e "container=docker"  -v /sys/fs/cgroup:/sys/fs/cgroup  ${REPO}:${IMAGE_BUILD_PLATFORM}  /usr/sbin/init
