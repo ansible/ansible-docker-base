@@ -33,7 +33,7 @@ script:
        export GIT_TAG=$(git tag | grep $ANSIBLE_VERSION | grep -v rc) &&
        echo $ANSIBLE_VERSION && echo $GIT_COMMIT && echo $GIT_TAG && echo "CHECKING OUT: ${GIT_COMMIT:-$GIT_TAG}" &&
        git checkout ${GIT_COMMIT:-$GIT_TAG} &&  git submodule update --init &&
-       git show &&
+       git log --decorate=short --pretty=oneline -n 1 &&
        sudo pip install tox sphinx &&
        sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock '
   - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible && make tests '
