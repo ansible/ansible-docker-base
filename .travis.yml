@@ -29,16 +29,16 @@ script:
   - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'sudo yum -y install make && mkdir -p /opt/ansible/'
   - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'if ! [ -d /opt/ansible/ansible ] || ! bash -c "cd /opt/ansible/ansible && git branch"; then git clone http://github.com/ansible/ansible.git /opt/ansible/ansible ; fi'
   - >
-    export ANSIBLE_VERSION=$(docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible &&
-       ansible-playbook --version | perl -n -e '\''if ( m/^ansible-playbook\s+([0-9\.]{1,7})/ ) { print $1 }'\'' \
+    export ANSIBLE_VERSION=$(docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible && \
+       ansible-playbook --version | perl -n -e '\''if ( m/^ansible-playbook\s+([0-9\.]{1,7})/ ) { print $1 }'\'' | tr -d "\n" \
     ')
   - >
-    export GIT_COMMIT=$(docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible &&
-       ansible-playbook --version | perl -n -e '\''if ( m/^ansible-playbook\s+[0-9\.]{1,7}\s+.*?([a-fA-F0-9]{7,40})/ ) { print $1 }'\''
+    export GIT_COMMIT=$(docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible && \
+       ansible-playbook --version | perl -n -e '\''if ( m/^ansible-playbook\s+[0-9\.]{1,7}\s+.*?([a-fA-F0-9]{7,40})/ ) { print $1 }'\'' | tr -d "\n" \
     ')
   - >
-    export GIT_TAG=$(docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c "cd /opt/ansible/ansible &&
-      git tag | grep $ANSIBLE_VERSION | grep -v rc
+    export GIT_TAG=$(docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c "cd /opt/ansible/ansible && \
+      git tag | grep $ANSIBLE_VERSION | grep -v rc | tr -d '\n' \
     ")
   - >
     echo "Ansible Version: $ANSIBLE_VERSION"
