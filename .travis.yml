@@ -47,9 +47,11 @@ script:
   - >
     docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c "cd /opt/ansible/ansible &&
        git checkout ${GIT_COMMIT:-$GIT_TAG} &&  git submodule update --init &&
-       git --no-pager log --decorate=short --pretty=oneline -n 1 &&
+       git --no-pager log --decorate=short --pretty=oneline -n 1"
+  - >
+    docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible &&
        sudo pip install tox sphinx &&
-       sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock "
+       sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock '
   - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible && make tests '
   - >
     docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible/test/integration/ &&
