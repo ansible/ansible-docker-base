@@ -40,13 +40,17 @@ script:
     export GIT_TAG=$(docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c "cd /opt/ansible/ansible &&
       git tag | grep $ANSIBLE_VERSION | grep -v rc
     ")
-  - echo "Ansible Version: $ANSIBLE_VERSION"
-  - echo "git SHA: $GIT_COMMIT"
-  - echo "Tagged Release?: $GIT_TAG"
-  - echo "CHECKING OUT: ${GIT_COMMIT:-$GIT_TAG}"
+  - >
+    echo "Ansible Version: $ANSIBLE_VERSION"
+  - >
+    echo "git SHA: $GIT_COMMIT"
+  - >
+    echo "Tagged Release?: $GIT_TAG"
+  - >
+    echo "CHECKING OUT: ${GIT_COMMIT:-$GIT_TAG}"
   - >
     docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c "cd /opt/ansible/ansible &&
-       git checkout ${GIT_COMMIT:-$GIT_TAG} &&  git submodule update --init &&
+       git checkout ${GIT_COMMIT:-$GIT_TAG} &&  git submodule update --init --recursive &&
        git --no-pager log --decorate=short --pretty=oneline -n 1"
   - >
     docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible &&
