@@ -35,7 +35,11 @@ ENV ANSIBLE_LIBRARY /opt/ansible/ansible/library
 # Workaround bug in pip / pylockfile: http://pad.lv/1472101
 # If HOME is a volume mount, causes infinite loop in pip trying to write lock
 ENV XDG_CACHE_HOME /tmp/
-RUN source /opt/ansible/ansible/hacking/env-setup
-
+RUN source /opt/ansible/ansible/hacking/env-setup && \
+    chmod 777 $ANSIBLE_HOME/lib/ansible.egg-info && \
+    chmod -R 666 $ANSIBLE_HOME/lib/ansible.egg-info/*
+RUN echo 'source /opt/ansible/ansible/hacking/env-setup' >> /etc/profile.d/ansible.sh
+RUN echo 'stat --format=%a $ANSIBLE_HOME/lib/ansible.egg-info | grep -iq '^777' || chmod 777 $ANSIBLE_HOME/lib/ansible.egg-info' >> /etc/profile.d/ansible.sh
+RUN echo 'stat --format=%a $ANSIBLE_HOME/lib/ansible.egg-info/* | grep -vq '^666' && chmod -R 666 $ANSIBLE_HOME/lib/ansible.egg-info/*' >> /etc/profile.d/ansible.sh
 
 CMD /bin/bash
