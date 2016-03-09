@@ -4,6 +4,8 @@ MAINTAINER James Cuzella <james.cuzella@lyraphase.com>
 RUN yum clean all && \
     yum -y install epel-release && \
     yum makecache all && \
+    yum -y upgrade glibc nscd ca-certificates && \
+    yum -y update && yum -y swap fakesystemd systemd && \
     yum -y groups mark convert && \
     yum -y groups mark install "Development Tools" && \
     yum -y groups mark convert "Development Tools" && \
