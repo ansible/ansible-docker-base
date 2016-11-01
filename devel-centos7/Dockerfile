@@ -30,7 +30,6 @@ RUN echo -e '[local]\nlocalhost\n' > /etc/ansible/hosts
 RUN mkdir /opt/ansible/
 RUN git clone http://github.com/ansible/ansible.git /opt/ansible/ansible
 WORKDIR /opt/ansible/ansible
-RUN perl -p -i -e  's/ansible\/ansible-modules-(core|extras)/ReturnPath\/ansible-modules-\1/' /opt/ansible/ansible/.gitmodules
 RUN git submodule update --init
 ## REVERTME: When ansible module bugs are fixed, revert the forced submodule updates
 # Force this even more... Git stores these submodule HEAD refs somewhere else besides .gitmodules now?? WTF!?
