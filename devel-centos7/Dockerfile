@@ -48,5 +48,6 @@ RUN source /opt/ansible/ansible/hacking/env-setup && \
 RUN echo 'source /opt/ansible/ansible/hacking/env-setup' >> /etc/profile.d/ansible.sh
 RUN echo 'stat --format=%a $ANSIBLE_HOME/lib/ansible.egg-info | grep -iq '^777' || chmod 777 $ANSIBLE_HOME/lib/ansible.egg-info' >> /etc/profile.d/ansible.sh
 RUN echo 'stat --format=%a $ANSIBLE_HOME/lib/ansible.egg-info/* | grep -vq '^666' && chmod -R 666 $ANSIBLE_HOME/lib/ansible.egg-info/*' >> /etc/profile.d/ansible.sh
+RUN mkdir -p /usr/share/ansible/plugins; for d in $(find /opt/ansible/ansible/lib/ansible/plugins/ -mindepth 1 -maxdepth 1 -type d ); do sudo ln -s $d /usr/share/ansible/plugins/$(basename $d); done
 
 CMD /bin/bash
