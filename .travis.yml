@@ -24,11 +24,11 @@ script:
   - docker build -t ${REPO}:${IMAGE_BUILD_PLATFORM} ${IMAGE_BUILD_PLATFORM}/
   - docker run --privileged -d -ti -e "container=docker"  -v /sys/fs/cgroup:/sys/fs/cgroup -v /var/lib/docker.sock:/var/lib/docker.sock ${REPO}:${IMAGE_BUILD_PLATFORM}  /usr/sbin/init
   - DOCKER_CONTAINER_ID=$(docker ps | grep ${IMAGE_BUILD_PLATFORM} | awk '{print $1}')
+  - DOCKER_VERSION=$(docker version -f '{{.Server.Version}}')
   - docker logs $DOCKER_CONTAINER_ID
 # Prepare test environment
   - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'sudo yum -y install make && mkdir -p /opt/ansible/'
   - >
-    export DOCKER_VERSION=$(docker version -f '{{.Server.Version}}') && \
     docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c "sudo curl -fsSL -o - https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz | \
          sudo tar --strip-components=1 -xvzf - -C /usr/bin docker/docker && \
        chmod +x /usr/bin/docker"
