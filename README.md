@@ -1,17 +1,27 @@
-THESE IMAGES HAVE BEEN DEPRECATED
-=================================
+THE OFFICIAL IMAGES HAVE BEEN DEPRECATED
+========================================
 
 Ansible no longer maintains images in Dockerhub directly. There are
 several Ansible images on Dockerhub that are maintained by members of
 the Ansible community, which you can find with the [following search](https://hub.docker.com/search/?q=ansible&page=1&isAutomated=0&isOfficial=0&pullCount=1&starCount=0)
 
+This is a Fork - NOT maintained by Ansible, Inc.
+================================================
 
 Ansible-Docker-Base
 ===================
+[![Build Status](https://img.shields.io/travis/trinitronx/ansible-docker-base.svg)](https://travis-ci.org/trinitronx/ansible-docker-base)
+[![Docker Pulls](https://img.shields.io/docker/pulls/trinitronx/ansible-base.svg)](https://hub.docker.com/r/trinitronx/ansible-base)
+[![Docker Stars](https://img.shields.io/docker/stars/trinitronx/ansible-base.svg)](https://hub.docker.com/r/trinitronx/ansible-base)
+[![Gittip](http://img.shields.io/gittip/trinitronx.svg)](https://www.gittip.com/trinitronx)
 
-These are base docker images that include Ansible.  
+These are base docker images that include Ansible.
 
-Ansible, Inc maintains these images so that people can easily build docker images from ansible playbooks.
+[Ansible, Inc used to maintain](https://github.com/ansible/ansible-docker-base#these-images-have-been-deprecated) these images so that people could easily build docker images from ansible playbooks.
+
+This fork is NOT owned by or maintained by Ansible, Inc.  Use at your own risk!
+
+**NOTE:** I may not be able to maintain this image very well, as it is not my day job.  My hope is that this is of good or better quality than most community images out there.  As such, I do not guarantee the quality of the version of Ansible that is installed here. In my attempt to run the integration tests within Docker both on Travis-CI and via my local Boot2Docker image, I have come to find that **some** of the pre-packaged Ansible integration tests tend to fail out of the box in different ways on the different platforms (e.g.: the `unicode`, `destructive`, and `non_destructive` test suites).  This only reflects the state of working integrations and features of the released version of Docker plus Ansible, plus Ansible core modules and shipped versions of dependencies on these platforms, and that certain things may be broken differently on each.  You may not encounter these bugs, but the tests show that they are there.  Each platform is slightly different in the versions of software packaged with each, and as such will potentially exhibit different behavior.  The combinations of various software versions on these platforms must be understood to be a holistic system with many sub-systems and components, so the amount of work to get all this working together is large and is a community effort.
 
 While Ansible modules can help you deploy container images (and also prepare host dependencies to be able to run containers), this document is about how to use ansible to efficiently describe and build them as well.
 
@@ -19,6 +29,8 @@ Obtaining these Images from DockerHub
 =====================================
 
 Ansible, Inc content on DockerHub lives at https://registry.hub.docker.com/u/ansible/
+
+**This Fork's** content on DockerHub lives at https://hub.docker.com/r/trinitronx/ansible-base
 
 There are base images available currently for CentOS 7 and Ubuntu 14.04 LTS, using both the latest
 stable version of Ansible as well as development branch snapshots.
@@ -51,6 +63,16 @@ The following options are available:
     FROM ansible/ubuntu14.04-ansible:stable
     FROM ansible/ubuntu14.04-ansible:devel
     
+**This Fork** currently has these images available with different Ansible versions (**ALL are CentOS 7 based currently**):
+
+    FROM trinitronx/ansible-base:latest
+    FROM trinitronx/ansible-base:stable
+    FROM trinitronx/ansible-base:v1.9.4
+    FROM trinitronx/ansible-base:v1.9.2
+    FROM trinitronx/ansible-base:v1.9.0.1
+    FROM trinitronx/ansible-base:v1.8.4
+    FROM trinitronx/ansible-base:v1.7.2
+
 Ansible images on DockerHub will be updated periodically.
 
 Jumping Docker Content with Ansible Galaxy

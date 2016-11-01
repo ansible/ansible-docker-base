@@ -1,0 +1,84 @@
+language: python
+
+sudo: required
+dist: trusty
+group: edge
+
+services:
+  - docker
+
+matrix:
+  fast_finish: true
+
+env:
+  - IMAGE_BUILD_PLATFORM=stable-centos7
+  - IMAGE_BUILD_PLATFORM=devel-centos7
+
+install:
+  - npm install -g validate-dockerfile
+
+script:
+  - export COMMIT=${TRAVIS_COMMIT::8}
+  - export REPO=trinitronx/ansible-base
+  - docklint ${IMAGE_BUILD_PLATFORM}/Dockerfile
+  - docker build -t ${REPO}:${IMAGE_BUILD_PLATFORM} ${IMAGE_BUILD_PLATFORM}/
+  - docker run --privileged -d -ti -e "container=docker"  -v /sys/fs/cgroup:/sys/fs/cgroup -v /var/lib/docker.sock:/var/lib/docker.sock ${REPO}:${IMAGE_BUILD_PLATFORM}  /usr/sbin/init
+  - DOCKER_CONTAINER_ID=$(docker ps | grep ${IMAGE_BUILD_PLATFORM} | awk '{print $1}')
+  - DOCKER_VERSION=$(docker version -f '{{.Server.Version}}')
+  - docker logs $DOCKER_CONTAINER_ID
+# Prepare test environment
+  - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'sudo yum -y install make && mkdir -p /opt/ansible/'
+  - >
+    docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c "sudo curl -fsSL -o - https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz | \
+         sudo tar --strip-components=1 -xvzf - -C /usr/bin docker/docker && \
+       chmod +x /usr/bin/docker"
+  - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'if ! [ -d /opt/ansible/ansible ] || ! bash -c "cd /opt/ansible/ansible && git branch"; then git clone http://github.com/ansible/ansible.git /opt/ansible/ansible ; fi'
+  - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'ansible --version'
+  - >
+    export ANSIBLE_VERSION=$(docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible && \
+       ansible-playbook --version | perl -n -e '\''if ( m/^ansible-playbook\s+([0-9\.]{1,7})/ ) { print $1 }'\'' | tr -d "\n" \
+    ')
+  - >
+    export GIT_COMMIT=$(docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible && \
+       ansible-playbook --version | perl -n -e '\''if ( m/^ansible-playbook\s+[0-9\.]{1,7}\s+.*?([a-fA-F0-9]{7,40})/ ) { print $1 }'\'' | tr -d "\n" \
+    ')
+  - >
+    export GIT_TAG=$(docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c "cd /opt/ansible/ansible && \
+      git tag | grep $ANSIBLE_VERSION | grep -v rc | tr -d '\n' \
+    ")
+  - >
+    echo "Ansible Version: $ANSIBLE_VERSION"
+  - >
+    echo "git SHA: $GIT_COMMIT"
+  - >
+    echo "Tagged Release?: $GIT_TAG"
+  - >
+    echo "CHECKING OUT: ${GIT_COMMIT:-$GIT_TAG}"
+  - >
+    docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c "cd /opt/ansible/ansible &&
+       git checkout ${GIT_COMMIT:-$GIT_TAG} &&  git submodule update --init --recursive &&
+       git --no-pager log --decorate=short --pretty=oneline -n 1"
+  - >
+    docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible &&
+       sudo pip install tox sphinx &&
+       sudo pip install paramiko PyYAML jinja2 httplib2 passlib nose mock '
+  - docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible && make tests '
+  - >
+    docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'cd /opt/ansible/ansible/test/integration/ &&
+       make -j 1 parsing test_var_precedence test_templating_settings includes test_hash test_handlers test_group_by '
+  - >
+    docker exec -ti $DOCKER_CONTAINER_ID /bin/sh -c 'echo -ne "------\nEND ANSIBLE TESTS\n------\nSystemD Units:\n------\n";
+       systemctl --no-pager --all --full status ;
+       echo -ne "------\nJournalD Logs:\n------\n" ;
+       sudo journalctl --catalog --all --full --no-pager'
+  - docker ps -a
+  - docker stop $DOCKER_CONTAINER_ID
+  - docker rm -v $DOCKER_CONTAINER_ID
+after_success:
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - if [ "$TRAVIS_BRANCH" == "master" -a "$IMAGE_BUILD_PLATFORM" == "stable-centos7" ]; then docker tag ${REPO}:${IMAGE_BUILD_PLATFORM} $REPO:latest; fi
+  - docker tag ${REPO}:${IMAGE_BUILD_PLATFORM} $REPO:travis-${TRAVIS_BUILD_NUMBER}
+  - docker tag ${REPO}:${IMAGE_BUILD_PLATFORM} $REPO:${IMAGE_BUILD_PLATFORM}-${ANSIBLE_VERSION}
+  - docker tag ${REPO}:${IMAGE_BUILD_PLATFORM} $REPO:${IMAGE_BUILD_PLATFORM}-${GIT_COMMIT:-$GIT_TAG}
+  - docker push $REPO
+  - "[ -e \"~/.docker/config.json\" ] && shred -n 30 -u -z ~/.docker/config.json"
